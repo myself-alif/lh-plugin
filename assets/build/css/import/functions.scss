@@ -1,0 +1,459 @@
+/**
+ * This function divides the size given by the value set for the base font size and returns it as rem.
+ * 
+ * @parameter Number $size
+ * 
+ * @return Rem
+ */
+
+@function px-to-rem($size) {
+    @return #{calc($size / $base-font-size)}rem;
+}
+
+/**
+ * This function is an alias for the px-to-rem() function.
+ * 
+ * @parameter Number $size
+ * 
+ * @return Rem
+ */
+
+@function p2r($size) {
+    @return px-to-rem($size);
+}
+
+/**
+ * Adds a growing underline to a before/after, could be applied to an empty div?
+ * 
+ * @parameter Px     $starting-width
+ * @parameter Px     $height
+ * @parameter Colour $line-color
+ * @parameter Colour $bg-color
+ * 
+ * @return CSS
+ */
+
+@mixin growing-underline($starting-width, $height, $line-color, $bg-color) {
+    display: block;
+    position: absolute;
+    height: $height;
+    width: 100%;
+    left: 0;
+    content: "";
+    bottom: 0;
+    background-image: linear-gradient($line-color, $line-color), linear-gradient($bg-color, $bg-color);
+    background-size: $starting-width 3px, auto;
+    background-repeat: no-repeat;
+    background-position: center bottom;
+    transition: all 0.3s ease 0;
+}
+
+/**
+ * Change placeholder color - vendor prefix edition, probably no longer needed
+ * 
+ * @parameter Colour $color
+ * 
+ * @return CSS
+ */
+
+@mixin placeholder-color($color) {
+    &::-webkit-input-placeholder { /* WebKit browsers */
+            color: $color;
+    }
+
+    &:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+            color: $color;
+            opacity: 1;
+    }
+
+    &::-moz-placeholder { /* Mozilla Firefox 19+ */
+            color: $color;
+            opacity: 1;
+    }
+
+    &:-ms-input-placeholder { /* Internet Explorer 10+ */
+            color: $color;
+    }
+
+    &::placeholder {
+        color: $color;
+    }
+}
+
+/**
+ * 16:9 = 0.5625
+ * requires markup inner div contains the video or ratioed image
+ * can update to include a rule instead of a fixed element class
+ */
+
+@mixin aspect-ratio($width, $height, $pad: 0) {
+    position: relative;
+
+    &::before {
+        display: block;
+        content: "";
+        width: 100%;
+        padding-top: round( ($height / $width) * 100% );
+    }
+
+    .inner {
+        position: absolute;
+        top: 0;
+        left: $pad;
+        right: $pad;
+        bottom: 0;
+    }
+}
+
+/**
+ * bit dirty gradient venfor prefix edition, probably no longer needed
+ * 
+ * @parameter #hex $color
+ * @parameter int $amount
+ * 
+ * @return CSS
+ */
+
+@mixin gradient-trans-to-color($color, $amount) {
+	// background: -moz-linear-gradient(top,  rgba($color,0) 0%, rgba($color,$amount) 100%); /* FF3.6-15 */
+	// background: -webkit-linear-gradient(top,  rgba($color,0) 0%,rgba($color,$amount) 100%); /* Chrome10-25,Safari5.1-6 */
+	background: linear-gradient(to bottom,  rgba($color,0) 0%,rgba($color,$amount) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+	// filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00000000', endColorstr='#a6000000',GradientType=0 ); /* IE6-9 */
+}
+
+/**
+ * Create styles for animation triggers by range
+ * 
+ * @parameter int $min [0-100]
+ * @parameter int $max [0-100]
+ * 
+ * @return CSS
+ */
+
+@mixin animate-in-range($min, $max){
+	@for $i from $min through $max {
+		&[data-percent="#{$i}"]{
+			@content;
+		}
+	}
+}
+
+/**
+ * Create an pseudo element that masks the content
+ * Container must not be position: static|initial|(inherit)
+ * 
+ * @return CSS
+ */
+
+@mixin animation-reveal-after-panel(){
+	overflow: hidden; // insure element has overflow hidden so doesnt push out on any non overflow hidden blocks(for hero anim)
+
+    &::after {
+        position: absolute;
+        content: '';
+        width: 200%;
+		height: 200%;
+		min-width: 200vw;
+		min-height: 200vh;
+        top: -50%;
+        left: -50%;
+        opacity: 1;
+        z-index: $z-index-low;
+        transform: rotate(36deg) translate(0%, 0%);
+        transition: all $long-animation-length ease-in-out 0s;
+        pointer-events: none;
+    }
+}
+
+/**
+ * Create min-width media query
+ * 
+ * @parameter Px $width
+ * 
+ * @return CSS
+ */
+
+@mixin media-min-width($width) {
+    @media screen and (min-width: $width) {
+        @content;
+    }
+}
+
+/**
+ * Create range (min-width, max-width) media query 
+ * 
+ * @parameter Px $min-width
+ * @parameter Px $max-width
+ * 
+ * @return CSS
+ */
+
+@mixin media-range-width($min-width, $max-width) {
+    @media screen and (min-width: $min-width) and (max-width: $max-width) {
+        @content;
+    }
+}
+
+/**
+ * Create max-width media query
+ * 
+ * @parameter Px $width
+ * 
+ * @return CSS
+ */
+
+@mixin media-max-width($width) {
+    @media screen and (max-width: $width) {
+        @content;
+    }
+}
+
+/**
+ * Animate item transition
+ */
+
+@mixin animate-item-transition() {
+    transition: transform $animation-length ease $no-animation-length,
+        opacity $animation-length ease $no-animation-length;
+ }
+
+/**
+ * Create a clip-path with a transparent circle in the middle
+ * 
+ * @parameter Percentage $radius Circle radius in percentage (between 0% and 50%)
+ * 
+ * @return CSS
+ */
+
+@mixin clip-path-circle-frame($radius) {
+    clip-path: polygon(
+        0% 0%,
+        0% 100%,
+        50% 100%,
+        50% #{50% + $radius},
+        #{50% + calc((37 - 50) / 50) * $radius} #{50% + calc((98 - 50) / 50) * $radius},
+        #{50% + calc((25 - 50) / 50) * $radius} #{50% + calc((93 - 50) / 50) * $radius},
+        #{50% + calc((15 - 50) / 50) * $radius} #{50% + calc((85 - 50) / 50) * $radius},
+        #{50% + calc((7 - 50) / 50) * $radius} #{50% + calc((75 - 50) / 50) * $radius},
+        #{50% + calc((2 - 50) / 50) * $radius} #{50% + calc((63 - 50) / 50) * $radius},
+        #{50% + calc((0.75 - 50) / 50) * $radius} #{50% + calc((58 - 50) / 50) * $radius},
+        #{50% + calc((0.25 - 50) / 50) * $radius} #{50% + calc((54 - 50) / 50) * $radius},
+        #{50% + calc((0 - 50) / 50) * $radius} 50%,
+        #{50% + calc((0.25 - 50) / 50) * $radius} #{50% + calc((46 - 50) / 50) * $radius},
+        #{50% + calc((0.75 - 50) / 50) * $radius} #{50% + calc((42 - 50) / 50) * $radius},
+        #{50% + calc((2 - 50) / 50) * $radius} #{50% + calc((37 - 50) / 50) * $radius},
+        #{50% + calc((7 - 50) / 50) * $radius} #{50% + calc((25 - 50) / 50) * $radius},
+        #{50% + calc((15 - 50) / 50) * $radius} #{50% + calc((15 - 50) / 50) * $radius},
+        #{50% + calc((25 - 50) / 50) * $radius} #{50% + calc((7 - 50) / 50) * $radius},
+        #{50% + calc((37 - 50) / 50) * $radius} #{50% + calc((2 - 50) / 50) * $radius},
+        50% #{50% - $radius},
+        #{50% + calc((63 - 50) / 50) * $radius} #{50% + calc((2 - 50) / 50) * $radius},
+        #{50% + calc((75 - 50) / 50) * $radius} #{50% + calc((7 - 50) / 50) * $radius},
+        #{50% + calc((85 - 50) / 50) * $radius} #{50% + calc((15 - 50) / 50) * $radius},
+        #{50% + calc((93 - 50) / 50) * $radius} #{50% + calc((25 - 50) / 50) * $radius},
+        #{50% + calc((98 - 50) / 50) * $radius} #{50% + calc((37 - 50) / 50) * $radius},
+        #{50% + calc((99.25 - 50) / 50) * $radius} #{50% + calc((42 - 50) / 50) * $radius},
+        #{50% + calc((99.75 - 50) / 50) * $radius} #{50% + calc((46 - 50) / 50) * $radius},
+        #{50% + calc((100 - 50) / 50) * $radius} 50%,
+        #{50% + calc((99.75 - 50) / 50) * $radius} #{50% + calc((54 - 50) / 50) * $radius},
+        #{50% + calc((99.25 - 50) / 50) * $radius} #{50% + calc((58 - 50) / 50) * $radius},
+        #{50% + calc((98 - 50) / 50) * $radius} #{50% + calc((63 - 50) / 50) * $radius},
+        #{50% + calc((93 - 50) / 50) * $radius} #{50% + calc((75 - 50) / 50) * $radius},
+        #{50% + calc((85 - 50) / 50) * $radius} #{50% + calc((85 - 50) / 50) * $radius},
+        #{50% + calc((75 - 50) / 50) * $radius} #{50% + calc((93 - 50) / 50) * $radius},
+        #{50% + calc((63 - 50) / 50) * $radius} #{50% + calc((98 - 50) / 50) * $radius},
+        50% #{50% + $radius},
+        50% 100%,
+        100% 100%,
+        100% 0
+    );
+
+    /*
+This is the base model for the formula from above
+clip-path: polygon(
+    0% 0%,
+    0% 100%,
+    50% 100%,
+    37% 98%,
+    25% 93%,
+    15% 85%,
+    7% 75%,
+    2% 63%,
+    0.75% 58%,
+    0.25% 54%,
+    0% 50%,
+    0.25% 46%,
+    0.75% 42%,
+    2% 37%,
+    7% 25%,
+    15% 15%,
+    25% 7%,
+    37% 2%,
+    50% 0%,
+    63% 2%,
+    75% 7%,
+    85% 15%,
+    93% 25%,
+    98% 37%,
+    99.25% 42%,
+    99.75% 46%,
+    100% 50%,
+    99.75% 54%,
+    99.25% 58%,
+    98% 63%,
+    93% 75%,
+    85% 85%,
+    75% 93%,
+    63% 98%,
+    50% 100%,
+    100% 100%,
+    100% 0%
+    );
+*/
+}
+
+/**
+ * Take a scale size and return value
+ * 
+ * @parameter $image-size = small, medium, large
+ * 
+ * @return value
+ */
+
+@function return-scale-amount($image-size){
+    $scale: map-get((
+        small : 1.03,
+        medium : 1.05,
+        large : 1.08
+    ), $image-size);
+
+    @return $scale;
+}
+
+/**
+ * Take a scale size and return duration
+ *  
+ * @parameter $image-size = small, medium, large
+ *  
+ * @return value
+ */
+
+@function return-scale-animation-duration($image-size){
+    $duration: map-get((
+        small : $animation-length,
+        medium : $long-animation-length,
+        large : 2s
+    ), $image-size);
+
+    @return $duration;
+}
+
+/**
+ * Force consistant animation style for scale
+ * animation
+ * 
+ * @ return props
+ */
+
+@mixin scale-animation-transition($image-size){
+    $duration: return-scale-animation-duration($image-size);
+
+    transition: transform $long-animation-length ease-out;
+}
+
+/**
+ * Animate image, requires picture element insde of container
+ * 
+ * @parameter $image-size = small, medium, large
+ * 
+ * @return CSS
+ */
+
+@mixin image-hover-animation($image-size){
+    $scale: return-scale-amount($image-size);
+
+    picture {
+        overflow: hidden;
+
+        img {
+            backface-visibility: hidden;
+            transform: scale(1);
+
+            @include scale-animation-transition($image-size);
+        }
+    }  
+
+    @include media-min-width($media-query-tablet) {
+        &:hover {
+            picture {
+                img {
+                    transform: scale(#{$scale});
+                }
+            }
+        }
+    }
+}
+
+/**
+ * Create empty stylesheets DEPRECATED
+ * 
+ * @parameter Px $width Array
+ * 
+ * @return CSS
+ */
+
+@mixin create-block-stylesheets($breakpoints){
+    @each $breakpoint in $breakpoints {
+        @include media-min-width($breakpoint){
+            display: block;
+        }
+    }
+}
+
+/**
+ * Return relative pixel size based on max width of template
+ * 
+ * @parameter Int $size
+ * 
+ * @return value [x]vw
+ */
+
+@function relative-pixel-size-to-fhd($size){
+    @return calc((#{$size} / 1920) * 100vw);
+}
+
+/**
+ * Alias for relative-pixel-size-to-fhd
+ * 
+ * @parameter Int $size
+ * 
+ * @return value [x]vw
+ */
+
+@function rpsfhd($size){
+    @return relative-pixel-size-to-fhd($size);
+}
+
+/**
+ * Take num columns and return column size based on screen width
+ * 
+ * @parameter Int $cols
+ * 
+ * @return value [x]vw
+ */
+
+@function return-column-width($cols){
+	@return calc( ( (100vw - 40px) / 12 ) * #{$cols});
+}
+
+/**
+ * alias for return-column-width
+ * 
+ * @parameter Int $cols
+ * 
+ * @return value [x]vw
+ */
+
+@function lh-cols($cols){
+	@return return-column-width($cols);
+}

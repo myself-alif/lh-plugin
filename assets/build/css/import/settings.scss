@@ -1,0 +1,84 @@
+/**
+ * Colors
+ */
+$white:             #fff;
+$black:             #000;
+$grey-light:        #ccc;
+$grey-medium:       #999;
+$grey-dark:         #666;
+$blue:              #011931;
+$red:               #B10021;
+$green:             #14D092;
+$placeholder-text:  $grey-medium;
+
+$error:             $red;
+
+/**
+ * Fonts
+ */
+$primary-font:      'Times New Roman';
+$secondary-font:    arial;
+
+/**
+ * Spacing and sizes
+ */
+$base-font-size: 16;
+
+@import 'functions';
+
+$wordpress-adminbar-height-mobile-val:  46;
+$wordpress-adminbar-height-mobile:      p2r($wordpress-adminbar-height-mobile-val);
+$wordpress-adminbar-height-desktop-val: 32;
+$wordpress-adminbar-height-desktop:     p2r($wordpress-adminbar-height-desktop-val);
+
+/* Header */
+$header-height-mobile-val:  91;
+$header-height-mobile:      p2r($header-height-mobile-val);
+$header-height-desktop-val: 91;
+$header-height-desktop:     p2r($header-height-desktop-val);
+
+/* Footer */
+$footer-height-mobile-val:  504;
+$footer-height-mobile:      p2r($footer-height-mobile-val);
+$footer-height-desktop-val: 283;
+$footer-height-desktop:     p2r($footer-height-desktop-val);
+
+/**
+ * Animations
+ */
+$no-animation-length:           0s;
+$quick-animation-length:        0.25s;
+$animation-length:              0.5s;
+$long-animation-length:         0.75s;
+$very-long-animation-length:    1s;
+
+/**
+ * Media Query Breakpoints
+ */
+$media-query-tablet:    768px;
+$media-query-desk-sm:   1024px;
+$media-query-desk-md:   1280px;
+$media-query-desk-lg:   1440px;
+$media-query-desk-xl:   1920px;
+
+/**
+ * Breakpoint list for responsive stylesheet creation with webpack
+ * used by @create-block-stylesheets
+ */
+$stylesheet-breakpoints: $media-query-tablet, $media-query-desk-sm;
+
+/**
+ * Z-indexes
+ * Lets presume we have 5 levels, this should be enough 
+ */
+$z-index-max:       40;
+$z-index-high:      30;
+$z-index-mid:       20;
+$z-index-low:       10;
+$z-index-bottom:    0;
+
+/**
+ * Plugin paths
+ */
+$img-path:  '/wp-content/plugins/wp-lh-solutions-plugin/assets/dist/img/';
+$font-path: '/wp-content/plugins/wp-lh-solutions-plugin/assets/dist/fonts/';

@@ -1,0 +1,37 @@
+@import 'import/settings';
+@import 'import/functions';
+
+html :where(.wp-block) {
+    margin:     50px auto   !important;
+    max-width:  1024px      !important;
+}
+
+.lh-page-container {
+    width: 90%;
+}
+
+.dataTables_wrapper {
+    .dataTables_length {
+        select {
+            width: 50px;
+        }
+    }
+}
+
+.acf-settings-wrap {
+    .postbox-container {
+        .postbox-header {
+            .handle-actions {
+                display:            flex;
+                align-items:        center;
+                justify-content:    flex-end;
+                min-height:         36px;
+            }
+        }
+        .inside.acf-fields.-top {
+            .acf-tab-wrap.-top {
+                overflow: visible;
+            }
+        }
+    }
+}

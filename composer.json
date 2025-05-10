@@ -1,0 +1,16 @@
+{
+    "name": "lemonhive/wp-lh-solutions-plugin",
+    "description": "Lh Solutions Plugin",
+    "type": "wordpress-plugin",
+    "license": "Proprietary",
+    "authors": [
+        {
+            "name": "Lemon Hive",
+            "email": "dev@lemonhive.com",
+            "homepage": "https://lemonhive.com/"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require": {
+    }
+}

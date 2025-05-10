@@ -1,0 +1,28 @@
+{
+    "extends": ["stylelint-config-standard-scss"],
+    "rules": {
+        "scss/dollar-variable-colon-space-after": null,
+        "scss/at-extend-no-missing-placeholder": null,
+        "scss/dollar-variable-empty-line-before": null,
+        "scss/at-mixin-pattern": null,
+        "scss/no-global-function-names": null,
+        "selector-not-notation": "simple",
+        "rule-empty-line-before": null,
+        "selector-class-pattern": null,
+        "selector-id-pattern": null,
+        "selector-no-vendor-prefix": null,
+        "no-descending-specificity": null,
+        "no-empty-source": null,
+        "color-function-notation": ["legacy", { "ignore": ["with-var-inside"] }],
+        "alpha-value-notation": "number",
+        "declaration-block-no-redundant-longhand-properties": [
+          true,
+          {
+            "ignoreLonghands": ["top", "right", "bottom", "left"],
+            "ignoreShorthands": ["inset", "flex", "flex-flow", "grid", "gap", "margin", "padding", "border"]
+          }
+        ],
+        "shorthand-property-no-redundant-values": false
+      },
+      "ignoreFiles": ["node_modules", "assets/build/plugins/","assets/dist/", "**/*.js"]
+}

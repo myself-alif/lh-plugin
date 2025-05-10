@@ -1,0 +1,8 @@
+{
+  "name": "lh/latest-insights",
+  "title": "Latest Insights",
+  "version": "1.0.0",
+  "description": "Shows posts/news",
+  "keywords": ["block", "latest insights", "post", "news", "lh"],
+  "icon": "list-view"
+}

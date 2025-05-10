@@ -1,0 +1,17 @@
+{
+    "name": "lh/title",
+    "title": "Title",
+    "version": "1.0.0",
+    "description": "",
+    "keywords": [
+        "block"
+    ],
+    "example": {
+        "attributes": {
+            "mode": "preview",
+            "data": {
+                "title": "LH_LOREM_IPSUM_1_TITLE"
+            }
+        }
+    }
+}

@@ -1,0 +1,8 @@
+{
+  "name": "lh/cta-banner",
+  "title": "Cta banner",
+  "version": "1.0.0",
+  "description": "displays CTA banner",
+  "icon": "align-wide",
+  "keywords": ["block", "banner", "cta", "lh"]
+}
