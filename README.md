@@ -1,3 +1,8 @@
+<h1>Installation</h1>
+<h4>Simply clone the theme and plugin repositories into their respective theme and plugin directories. Make sure (ACF) is pre-installed.</h4>
+
+
+
 # Lh Solutions Plugin #
 
 Requires at least: 5.2
